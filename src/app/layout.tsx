@@ -11,6 +11,7 @@ const alpino = localFont({
 
 import "./app.css";
 import Header from "@/components/Header";
+import ViewCanvas from "@/components/ViewCanvas";
 
 export default function RootLayout({
   children,
@@ -21,7 +22,10 @@ export default function RootLayout({
     <html lang="en" className={alpino.variable}>
       <body className="overflow-x-hidden bg-yellow-300">
         <Header />
-        <main>{children}</main>
+        <main>
+          {children}
+          <ViewCanvas />
+          </main>
       </body>
       <PrismicPreview repositoryName={repositoryName} />
     </html>
