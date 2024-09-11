@@ -7,11 +7,14 @@ import { Group } from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
+import { useStore } from "@/hooks/useStore";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Props = {};
 
 export default function Scene({}: Props) {
+  const isReady = useStore((state) =>state.isReady);
+
   const can1Ref = useRef<Group>(null);
   const can2Ref = useRef<Group>(null);
   const can3Ref = useRef<Group>(null);
@@ -37,6 +40,8 @@ export default function Scene({}: Props) {
       !groupRef.current
     )
       return;
+
+      isReady();
 
     gsap.set(can1Ref.current.position, { x: -1.5 });
     gsap.set(can1Ref.current.rotation, { z: -0.5 });
@@ -79,7 +84,7 @@ export default function Scene({}: Props) {
       //group 1&2
       .to(groupRef.current.rotation, { y: Math.PI * 2 })
       //can1
-      .to(can1Ref.current.position, { x: -0.2, y: -0.7, z: -0.2 }, 0)
+      .to(can1Ref.current.position, { x: -0.2, y: -0.7, z: -2 }, 0)
       .to(can1Ref.current.rotation, { z: 0.3 }, 0)
       //can2
       .to(can2Ref.current.position, { x: 1, y: -0.2, z: -0.1 }, 0)
