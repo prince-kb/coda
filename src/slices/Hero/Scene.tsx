@@ -132,7 +132,7 @@ export default function Scene({}: Props) {
 
       {/* <OrbitControls /> */}
 
-      <Environment files="/hdr/lobby.hdr" environmentIntensity={1.5} />
+      <Environment files="./hdr/lobby.hdr" environmentIntensity={1.5} />
     </group>
   );
 }

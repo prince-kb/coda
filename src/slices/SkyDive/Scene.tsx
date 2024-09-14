@@ -149,7 +149,7 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
 
       <ambientLight intensity={2} color="#9DDEFA" />
       <Environment
-        files="/hdr/field.hdr"
+        files="./hdr/field.hdr"
         environmentIntensity={1.5}
         preset="sunset"
       />
