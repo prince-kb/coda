@@ -4,7 +4,12 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type PageDocumentDataSlicesSlice = CarouselSlice | SkyDiveSlice | HeroSlice;
+type PageDocumentDataSlicesSlice =
+  | BigTextSlice
+  | AlternatingSlice
+  | CarouselSlice
+  | SkyDiveSlice
+  | HeroSlice;
 
 /**
  * Content for Page documents
@@ -77,6 +82,108 @@ export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 export type AllDocumentTypes = PageDocument;
+
+/**
+ * Item in *Alternating → Default → Primary → Text Group*
+ */
+export interface AlternatingSliceDefaultPrimaryTextGroupItem {
+  /**
+   * Heading field in *Alternating → Default → Primary → Text Group*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: alternating.default.primary.text_group[].heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField;
+
+  /**
+   * Body field in *Alternating → Default → Primary → Text Group*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: alternating.default.primary.text_group[].body
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  body: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Alternating → Default → Primary*
+ */
+export interface AlternatingSliceDefaultPrimary {
+  /**
+   * Text Group field in *Alternating → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: alternating.default.primary.text_group[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  text_group: prismic.GroupField<
+    Simplify<AlternatingSliceDefaultPrimaryTextGroupItem>
+  >;
+}
+
+/**
+ * Default variation for Alternating Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type AlternatingSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<AlternatingSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Alternating*
+ */
+type AlternatingSliceVariation = AlternatingSliceDefault;
+
+/**
+ * Alternating Shared Slice
+ *
+ * - **API ID**: `alternating`
+ * - **Description**: Alternating
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type AlternatingSlice = prismic.SharedSlice<
+  "alternating",
+  AlternatingSliceVariation
+>;
+
+/**
+ * Default variation for BigText Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BigTextSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *BigText*
+ */
+type BigTextSliceVariation = BigTextSliceDefault;
+
+/**
+ * BigText Shared Slice
+ *
+ * - **API ID**: `big_text`
+ * - **Description**: BigText
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BigTextSlice = prismic.SharedSlice<
+  "big_text",
+  BigTextSliceVariation
+>;
 
 /**
  * Primary content in *Carousel → Default → Primary*
@@ -318,6 +425,14 @@ declare module "@prismicio/client" {
       PageDocumentData,
       PageDocumentDataSlicesSlice,
       AllDocumentTypes,
+      AlternatingSlice,
+      AlternatingSliceDefaultPrimaryTextGroupItem,
+      AlternatingSliceDefaultPrimary,
+      AlternatingSliceVariation,
+      AlternatingSliceDefault,
+      BigTextSlice,
+      BigTextSliceVariation,
+      BigTextSliceDefault,
       CarouselSlice,
       CarouselSliceDefaultPrimary,
       CarouselSliceVariation,
