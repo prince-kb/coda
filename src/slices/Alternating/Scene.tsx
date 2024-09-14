@@ -39,7 +39,7 @@ export default function Scene({}: Props) {
         const isOdd = index%2!==0;
 
         const xPosition = isDesktop ? (isOdd ? "-1" : "1") : 0;
-        const yRotation = isDesktop ? (isOdd ? ".4" : "-.4") : 0;
+        const yPosition = isDesktop ? (isOdd ? ".4" : "-.4") : 0;
         scrollTl
         .to(canRef.current.position,{
             x: xPosition,
@@ -47,7 +47,7 @@ export default function Scene({}: Props) {
             delay:0.5
         })
         .to(canRef.current.position,{
-            y: isOdd ? ".4" : "-.4",
+            y: yPosition,
             ease:"back.inOut",
         },"<")
         .to(".alternating-text-container",{
@@ -60,7 +60,8 @@ export default function Scene({}: Props) {
   return (
     <group ref={canRef} position-x={isDesktop ? 1 : 0} rotation-y={isDesktop ? -.3 : 0}>
       <FloatingCan flavor="strawberryLemonade" />
-      <Environment files="./hdr/lobby.hdr" environmentIntensity={1.5} />
+      <Environment files="./hdr/lobby.hdr" environmentIntensity={1.5} preset="sunset"/>
+      <ambientLight intensity={2}/>
     </group>
   );
 }
